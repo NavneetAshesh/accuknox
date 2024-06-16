@@ -1,0 +1,2 @@
+# accuknox
+Golang trainee assignment
