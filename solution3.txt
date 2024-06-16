@@ -1,0 +1,46 @@
+Problem Statement 3: Explain the code snippet
+
+Explain what the following code is attempting to do? You can explain by:
+Explaining how the highlighted constructs work?
+Giving use-cases of what these constructs could be used for.
+What is the significance of the for loop with 4 iterations?
+What is the significance of make(chan func(), 10)?
+Why is “HERE1” not getting printed?
+
+package main
+
+import "fmt"
+
+func main() {
+    cnp := make(chan func(), 10)
+    for i := 0; i < 4; i++ {
+        go func() {
+            for f := range cnp {
+                f()
+            }
+        }()
+    }
+    cnp <- func() {
+        fmt.Println("HERE1")
+    }
+    fmt.Println("Hello")
+}
+
+
+
+Answer :- 
+
+Constructs:
+- make(chan func(), 10): Creates a buffered channel that can hold up to 10 functions.
+- Goroutines with for loop: Starts 4 goroutines that continuously run functions received from the channel.
+
+Use-Cases:
+- Buffered channels: Useful for queuing tasks without blocking.
+- Goroutines: Good for parallel processing, like handling multiple web requests at the same time.
+
+Significance:
+- For loop with 4 iterations: Launches 4 workers to handle tasks concurrently.
+- Buffered channel: Allows sending tasks (functions) to the channel without waiting for an immediate receiver.
+
+Why "HERE1" isn’t printed:
+- The program exits before the goroutines get a chance to run the function that prints "HERE1". The "Hello" message is printed because it runs immediately.
